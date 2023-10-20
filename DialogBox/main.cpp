@@ -1,4 +1,4 @@
-#include<Windows.h>
+п»ї#include<Windows.h>
 #include<commctrl.h>
 #include"resource.h"
 
@@ -19,7 +19,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
 			SendMessage(hwnd, WM_SETICON, 0, (LRESULT)hIcon);
 			//HWND hLogin = GetDlgItem(hwnd, IDC_EDIT_LOGIN);
-			//SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"Введите имя пользователя");
+			//SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"Р’РІРµРґРёС‚Рµ РёРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ");
 			//SetFocus(GetDlgItem(hwnd, IDC_EDIT_LOGIN));
 			Edit_SetCueBannerTextFocused(GetDlgItem(hwnd, IDC_EDIT_LOGIN), L"fsdf", TRUE);
 		}
@@ -29,19 +29,19 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				case IDC_BUTTON_COPY:
 				{
-					//Создаём буффер чтения:
+					//РЎРѕР·РґР°С‘Рј Р±СѓС„С„РµСЂ С‡С‚РµРЅРёСЏ:
 					CONST INT SIZE = 256;
 					CHAR sz_buffer[SIZE] = {};
-					//Получаем обработчик текстового полей
-					HWND hLogin = GetDlgItem(hwnd, IDC_EDIT_LOGIN); //Функция GetDlgItem() по ID-резурса дочернего окна возвращает HWND соответствующего дочернего окна
-					HWND hPassword = GetDlgItem(hwnd, IDC_EDIT_PASSWORD); //Функция GetDlgItem() по ID-резурса дочернего окна возвращает HWND соответствующего дочернего окна
-					//Читаем текст из текстового поля
+					//РџРѕР»СѓС‡Р°РµРј РѕР±СЂР°Р±РѕС‚С‡РёРє С‚РµРєСЃС‚РѕРІРѕРіРѕ РїРѕР»РµР№
+					HWND hLogin = GetDlgItem(hwnd, IDC_EDIT_LOGIN); //Р¤СѓРЅРєС†РёСЏ GetDlgItem() РїРѕ ID-СЂРµР·СѓСЂСЃР° РґРѕС‡РµСЂРЅРµРіРѕ РѕРєРЅР° РІРѕР·РІСЂР°С‰Р°РµС‚ HWND СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ РґРѕС‡РµСЂРЅРµРіРѕ РѕРєРЅР°
+					HWND hPassword = GetDlgItem(hwnd, IDC_EDIT_PASSWORD); //Р¤СѓРЅРєС†РёСЏ GetDlgItem() РїРѕ ID-СЂРµР·СѓСЂСЃР° РґРѕС‡РµСЂРЅРµРіРѕ РѕРєРЅР° РІРѕР·РІСЂР°С‰Р°РµС‚ HWND СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ РґРѕС‡РµСЂРЅРµРіРѕ РѕРєРЅР°
+					//Р§РёС‚Р°РµРј С‚РµРєСЃС‚ РёР· С‚РµРєСЃС‚РѕРІРѕРіРѕ РїРѕР»СЏ
 					SendMessage(hLogin, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
-					//Загружаем содержимоего текстового буфера в поле 'Password'
+					//Р—Р°РіСЂСѓР¶Р°РµРј СЃРѕРґРµСЂР¶РёРјРѕРµРіРѕ С‚РµРєСЃС‚РѕРІРѕРіРѕ Р±СѓС„РµСЂР° РІ РїРѕР»Рµ 'Password'
 					SendMessage(hPassword, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 				}
 				break;
-				case IDOK:		MessageBox(hwnd, "Была нажата кнопка OK", "Info", MB_OK | MB_ICONINFORMATION); break;
+				case IDOK:		MessageBox(hwnd, "Р‘С‹Р»Р° РЅР°Р¶Р°С‚Р° РєРЅРѕРїРєР° OK", "Info", MB_OK | MB_ICONINFORMATION); break;
 				case IDCANCEL:	EndDialog(hwnd, 0);
 			}
 		break;

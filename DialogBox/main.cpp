@@ -18,10 +18,9 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
 			SendMessage(hwnd, WM_SETICON, 0, (LRESULT)hIcon);
-			//HWND hLogin = GetDlgItem(hwnd, IDC_EDIT_LOGIN);
-			//SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"Введите имя пользователя");
+			SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"Введите имя пользователя");
+			SendMessage(GetDlgItem(hwnd, IDC_EDIT_PASSWORD), WM_SETTEXT, 0, (LPARAM)"Введите пароль");
 			//SetFocus(GetDlgItem(hwnd, IDC_EDIT_LOGIN));
-			Edit_SetCueBannerTextFocused(GetDlgItem(hwnd, IDC_EDIT_LOGIN), L"fsdf", TRUE);
 		}
 		break;
 		case WM_COMMAND:
@@ -38,11 +37,36 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					//Читаем текст из текстового поля
 					SendMessage(hLogin, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 					//Загружаем содержимоего текстового буфера в поле 'Password'
-					SendMessage(hPassword, WM_SETTEXT, 0, (LPARAM)sz_buffer);
-				}
-				break;
+					if (strcmp(sz_buffer, "Введите имя пользователя") != 0)
+						SendMessage(hPassword, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+				}break;
+
+				case IDC_EDIT_LOGIN:
+				{
+					//Edit_SetCueBannerTextFocused(GetDlgItem(hwnd, IDC_EDIT_LOGIN), (LPARAM)"Введите имя пользователя", TRUE);
+					CONST INT SIZE = 256;
+					CHAR sz_buffer[SIZE] = {};
+					SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+					if (HIWORD(wParam) == EN_SETFOCUS && strcmp(sz_buffer, "Введите имя пользователя") == 0)
+						SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"");
+					else if (HIWORD(wParam) == EN_KILLFOCUS && strcmp(sz_buffer, "") == 0)
+						SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"Введите имя пользователя");
+				}break;
+
+				case IDC_EDIT_PASSWORD:
+				{
+					//Edit_SetCueBannerTextFocused(GetDlgItem(hwnd, IDC_EDIT_PASSWORD), (LPARAM)"Введите пароль", TRUE);
+					CONST INT SIZE = 256;
+					CHAR sz_buffer[SIZE] = {};
+					SendMessage(GetDlgItem(hwnd, IDC_EDIT_PASSWORD), WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+					if (HIWORD(wParam) == EN_SETFOCUS && strcmp(sz_buffer, "Введите пароль") == 0)
+						SendMessage(GetDlgItem(hwnd, IDC_EDIT_PASSWORD), WM_SETTEXT, 0, (LPARAM)"");
+					else if (HIWORD(wParam) == EN_KILLFOCUS && strcmp(sz_buffer, "") == 0)
+						SendMessage(GetDlgItem(hwnd, IDC_EDIT_PASSWORD), WM_SETTEXT, 0, (LPARAM)"Введите пароль");
+				}break;
+
 				case IDOK:		MessageBox(hwnd, "Была нажата кнопка OK", "Info", MB_OK | MB_ICONINFORMATION); break;
-				case IDCANCEL:	EndDialog(hwnd, 0);
+				case IDCANCEL:	EndDialog(hwnd, 0); break;
 			}
 		break;
 		case WM_CLOSE: EndDialog(hwnd, 0);

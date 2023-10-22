@@ -55,7 +55,6 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				case IDC_EDIT_PASSWORD:
 				{
-					//Edit_SetCueBannerTextFocused(GetDlgItem(hwnd, IDC_EDIT_PASSWORD), (LPARAM)"Введите пароль", TRUE);
 					CONST INT SIZE = 256;
 					CHAR sz_buffer[SIZE] = {};
 					SendMessage(GetDlgItem(hwnd, IDC_EDIT_PASSWORD), WM_GETTEXT, SIZE, (LPARAM)sz_buffer);

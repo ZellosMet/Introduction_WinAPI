@@ -49,7 +49,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 					if (HIWORD(wParam) == EN_SETFOCUS && strcmp(sz_buffer, "Введите имя пользователя") == 0)
 						SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"");
-					else if (HIWORD(wParam) == EN_KILLFOCUS && strcmp(sz_buffer, "") == 0)
+					if (HIWORD(wParam) == EN_KILLFOCUS && strcmp(sz_buffer, "") == 0)
 						SendMessage(GetDlgItem(hwnd, IDC_EDIT_LOGIN), WM_SETTEXT, 0, (LPARAM)"Введите имя пользователя");
 				}break;
 
@@ -60,7 +60,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					SendMessage(GetDlgItem(hwnd, IDC_EDIT_PASSWORD), WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 					if (HIWORD(wParam) == EN_SETFOCUS && strcmp(sz_buffer, "Введите пароль") == 0)
 						SendMessage(GetDlgItem(hwnd, IDC_EDIT_PASSWORD), WM_SETTEXT, 0, (LPARAM)"");
-					else if (HIWORD(wParam) == EN_KILLFOCUS && strcmp(sz_buffer, "") == 0)
+					if (HIWORD(wParam) == EN_KILLFOCUS && strcmp(sz_buffer, "") == 0)
 						SendMessage(GetDlgItem(hwnd, IDC_EDIT_PASSWORD), WM_SETTEXT, 0, (LPARAM)"Введите пароль");
 				}break;
 

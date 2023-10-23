@@ -47,6 +47,22 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// Dialog
+//
+
+IDD_DIALOG1 DIALOGEX 0, 0, 277, 117
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,155,90,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,211,90,50,14
+    COMBOBOX        IDC_COMBO1,7,15,251,82,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // DESIGNINFO
 //
 
@@ -56,30 +72,12 @@ BEGIN
     IDD_DIALOG1, DIALOG
     BEGIN
         LEFTMARGIN, 7
+        RIGHTMARGIN, 267
         TOPMARGIN, 7
+        BOTTOMMARGIN, 81
     END
 END
 #endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_DIALOG1 DIALOGEX 0, 0, 298, 111
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Диалоговое окно"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,169,77,50,14
-    PUSHBUTTON      "E&xit",IDCANCEL,224,77,50,14
-    LTEXT           "Login",IDC_STATIC_LOGIN,14,14,18,8
-    EDITTEXT        IDC_EDIT_LOGIN,7,29,283,14,ES_AUTOHSCROLL | NOT WS_TABSTOP
-    LTEXT           "Password",IDC_STATIC_PASSWORD,15,45,32,8
-    EDITTEXT        IDC_EDIT_PASSWORD,7,56,283,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Copy",IDC_BUTTON_COPY,15,74,50,14
-END
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -91,16 +89,6 @@ IDD_DIALOG1 AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_ICON1               ICON                    "emoji_happy_icon_257374.ico"
 
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////

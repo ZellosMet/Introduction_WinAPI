@@ -3,7 +3,7 @@
 #include"resource.h"
 #include<cstdio>
 
-CONST CHAR* g_sz_VALUES[] = { "This", "is", "my", "first", "Combo", "Box" };
+CONST CHAR* g_sz_VALUES[] = { "This", "is", "my", "first", "List", "Box" };
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

@@ -17,8 +17,8 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	wc.cbClsExtra = 0; // Дополнительный байты класса окна
 	wc.style = 0;
 	
-	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_RECYCLE)); // Иконка в заголовке окна
-	wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_WALLPAPER)); //Sm -Small. Иконка в меню пуск
+	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_RECYCLE)); // Иконка в панели задач
+	wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_WALLPAPER)); //Sm -Small. Иконка в заголовке окна
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = HBRUSH(COLOR_WINDOW + 1);
 
@@ -33,6 +33,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		MessageBox(NULL, ("Call Register failed!"), ("Error"), MB_OK | MB_ICONERROR);
 		return 0;
 	}
+
 	// 2) Создание окна;
 	HWND hwnd = CreateWindowEx
 	(

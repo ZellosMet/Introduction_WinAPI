@@ -70,16 +70,16 @@ BOOL CALLBACK AddProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 		case IDC_BUTTON_ADD:
-			{
-				CONST INT SIZE = 256;
-				CHAR sz_buffer[SIZE] = {};
-				HWND hParent = GetParent(hwnd);
-				HWND hList = GetDlgItem(hParent, IDC_LIST1);
-				HWND hEdit = GetDlgItem(hwnd, IDC_EDIT_ELEMENT);
-				SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
-				SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
-				EndDialog(hwnd, 0);
-			}
+		{
+			CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE] = {};
+			HWND hParent = GetParent(hwnd);
+			HWND hList = GetDlgItem(hParent, IDC_LIST1);
+			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT_ELEMENT);
+			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+			SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
+			EndDialog(hwnd, 0);
+		}
 		break;
 		case IDC_BUTTON_CANCEL: EndDialog(hwnd, 0); break;
 		}
@@ -104,19 +104,19 @@ BOOL CALLBACK DelProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		sprintf(sz_message, "Удалить элемент \"%s\"?", sz_buffer);
 		SetWindowTextA(GetDlgItem(hwnd, IDC_TEXT), sz_message);
 	}
-		break;
+	break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
 		case IDOK:
-			{
-				CONST INT SIZE = 256;
-				CHAR sz_buffer[SIZE] = {};
-				HWND hParent = GetParent(hwnd);
-				HWND hList = GetDlgItem(hParent, IDC_LIST1);
-				int i = SendMessage(hList, LB_GETCURSEL, 0, 0);
-				SendMessage(hList, LB_DELETESTRING, i, (LPARAM)sz_buffer);
-			}
+		{
+			CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE] = {};
+			HWND hParent = GetParent(hwnd);
+			HWND hList = GetDlgItem(hParent, IDC_LIST1);
+			int i = SendMessage(hList, LB_GETCURSEL, 0, 0);
+			SendMessage(hList, LB_DELETESTRING, i, (LPARAM)sz_buffer);
+		}
 		break;
 		}
 	case IDCANCEL: EndDialog(hwnd, 0);

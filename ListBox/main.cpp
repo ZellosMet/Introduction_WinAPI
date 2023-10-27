@@ -49,7 +49,8 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendMessage(GetDlgItem(hwnd, IDC_LIST1), LB_GETTEXT, i, (LPARAM)sz_buffer);
 			CHAR sz_message[SIZE]{};
 			sprintf(sz_message, "Вы выбрали элемент № %i, со значением \"%s\"", i, sz_buffer);
-			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);
+			if (SendMessage(GetDlgItem(hwnd, IDC_LIST1), LB_GETCURSEL, 0, 0) != LB_ERR)
+				MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);
 		}
 		break;
 		case IDCANCEL:	EndDialog(hwnd, 0); break;
@@ -92,7 +93,18 @@ BOOL CALLBACK DelProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
-	case WM_INITDIALOG:	break;
+	case WM_INITDIALOG:	
+	{
+		const int SIZE = 256;
+		CHAR sz_buffer[SIZE]{};
+		HWND hParent = GetParent(hwnd);
+		int i = SendMessage(GetDlgItem(hParent, IDC_LIST1), LB_GETCURSEL, 0, 0);
+		SendMessage(GetDlgItem(hParent, IDC_LIST1), LB_GETTEXT, i, (LPARAM)sz_buffer);
+		CHAR sz_message[SIZE]{};
+		sprintf(sz_message, "Удалить элемент \"%s\"?", sz_buffer);
+		SetWindowTextA(GetDlgItem(hwnd, IDC_TEXT), sz_message);
+	}
+		break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{

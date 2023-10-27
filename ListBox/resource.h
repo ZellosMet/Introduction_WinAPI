@@ -12,7 +12,7 @@
 #define IDC_EDIT_ELEMENT                1005
 #define IDC_BUTTON_ADD                  1009
 #define IDC_BUTTON_CANCEL               1010
-#define IDC_STATIC						1011
+#define IDC_TEXT						1011
 
 // Next default values for new objects
 // 

@@ -80,7 +80,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,20,38,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,131,37,50,14
-    LTEXT           "Удалить элемент?",IDC_STATIC,21,19,62,8
+    LTEXT           "Удалить выбранный элемент?",IDC_STATIC,21,12,170,8
 END
 
 

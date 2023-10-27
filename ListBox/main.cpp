@@ -37,7 +37,8 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 		case IDC_DELETE:
 		{
-			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_DEL), hwnd, (DLGPROC)DelProc, 0);
+			if (SendMessage(GetDlgItem(hwnd, IDC_LIST1), LB_GETCURSEL, 0, 0) != LB_ERR)
+				DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_DEL), hwnd, (DLGPROC)DelProc, 0);
 		}
 		break;
 		case IDOK:	

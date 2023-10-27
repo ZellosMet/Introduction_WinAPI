@@ -27,9 +27,9 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	wc.hIconSm = ExtractIcon(hInstance, "mailchimp.ico", 0);
 
 
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	//wc.hCursor = LoadCursor(NULL, IDC_ARROW);	
+	wc.hCursor = (HCURSOR)LoadImage(hInstance, "Link_Select.ani", IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
 	wc.hbrBackground = HBRUSH(COLOR_WINDOW + 1);
-
 	wc.hInstance = hInstance; //hInstance - это экземпляр исполняемого файла программы в памяти
 	// В функции WinMain()  принимает hInstance как параметр, и поэтому к нему есть прямой доступ, 
 	// в любой другой функции hInstance всегда можно получить с помощью функции GetModuleHandle(NULL)

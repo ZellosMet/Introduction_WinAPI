@@ -31,7 +31,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	wc.hIconSm = ExtractIcon(hInstance, "mailchimp.ico", 0);
 
 
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);	
+	//wc.hCursor = LoadCursor(NULL, IDC_ARROW);	
 	wc.hCursor = (HCURSOR)LoadImage(hInstance, "Link_Select.ani", IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
 	wc.hbrBackground = HBRUSH(COLOR_WINDOW + 1);
 	wc.hInstance = hInstance; //hInstance - это экземпл€р исполн€емого файла программы в пам€ти
@@ -101,18 +101,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 		case WM_SIZE:		MoveSizeEvent(hwnd); break;
 		case WM_MOVE:		MoveSizeEvent(hwnd); break;
-		case WM_SETCURSOR:
-		{
-			//HWND hCombo = GetDlgItem(hwnd, IDC_COMBO);
-			//int i = SendMessage(hCombo, CB_GETCURSEL, 0, 0);
-			//CHAR sz_filename[_MAX_FNAME]{};
-			//CHAR sz_filepath[_MAX_PATH] = "starcraft-original\\";
-			//SendMessage(hCombo, CB_GETLBTEXT, i, (LPARAM)sz_filename);
-			//strcat(sz_filepath, sz_filename);
-			//hCursor = (HCURSOR)LoadImage(GetModuleHandle(NULL), sz_filepath, IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
-			SetCursor(hCursor);
-		}
-		break;
+		//case WM_SETCURSOR:
+		//{
+		//	//HWND hCombo = GetDlgItem(hwnd, IDC_COMBO);
+		//	//int i = SendMessage(hCombo, CB_GETCURSEL, 0, 0);
+		//	//CHAR sz_filename[_MAX_FNAME]{};
+		//	//CHAR sz_filepath[_MAX_PATH] = "starcraft-original\\";
+		//	//SendMessage(hCombo, CB_GETLBTEXT, i, (LPARAM)sz_filename);
+		//	//strcat(sz_filepath, sz_filename);
+		//	//hCursor = (HCURSOR)LoadImage(GetModuleHandle(NULL), sz_filepath, IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+		//	SetCursor(hCursor);
+		//}
+		//break;
 		case WM_COMMAND:	
 		{
 			switch (LOWORD(wParam))

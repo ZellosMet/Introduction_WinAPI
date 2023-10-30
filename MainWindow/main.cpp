@@ -6,13 +6,11 @@
 #include<vector>
 #include<string>
 
-
 #define IDC_COMBO			1001
 #define IDC_BUTTON_APPLY	1002
 
 //CONST CHAR* g_CURSOR[] = { "Busy.ani", "Normal Select.ani", "Working In Background.ani", "Move.ani"};
 CONST CHAR g_sz_WINDOW_CLASS[] = "My Window Class"; //Имя класса окна
-
 
 std::vector<std::string> LoadCursorFromDir(const std::string& directory);
 

@@ -121,9 +121,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				strcat(sz_filepath, sz_filename);
 				hCursor = (HCURSOR)LoadImage(GetModuleHandle(NULL), sz_filepath, IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
 				SetCursorPos(500, 300);
-				SetClassLong(hwnd, GCL_HCURSOR, (LONG)hCursor);
-				SetClassLong(GetDlgItem(hwnd, IDC_BUTTON_APPLY), GCL_HCURSOR, (LONG)hCursor);
-				SetClassLong(GetDlgItem(hwnd, IDC_COMBO), GCL_HCURSOR, (LONG)hCursor);
+				SetClassLong(hwnd, GCLP_HCURSOR, (LONG)hCursor);
+				SetClassLong(GetDlgItem(hwnd, IDC_BUTTON_APPLY), GCLP_HCURSOR, (LONG)hCursor);
+				SetClassLong(GetDlgItem(hwnd, IDC_COMBO), GCLP_HCURSOR, (LONG)hCursor);
 				//SetCursor(hCursor);
 				return FALSE;
 			}

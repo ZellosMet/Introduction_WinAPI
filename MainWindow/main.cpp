@@ -1,73 +1,67 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<Windows.h>
-#include<WinUser.h>
 #include<stdio.h>
-#include"resource.h"
-#include<vector>
-#include<string>
+#include<cstdlib>
 
-#define IDC_COMBO			1001
-#define IDC_BUTTON_APPLY	1002
 
-//CONST CHAR* g_CURSOR[] = { "Busy.ani", "Normal Select.ani", "Working In Background.ani", "Move.ani"};
-CONST CHAR g_sz_WINDOW_CLASS[] = "My Window Class"; //Имя класса окна
-
-std::vector<std::string> LoadCursorFromDir(const std::string& directory);
+#define IDC_BUTTON_1	1001
+#define IDC_BUTTON_2	1002
+#define IDC_BUTTON_3	1003
+#define IDC_BUTTON_4	1004
+#define IDC_BUTTON_5	1005
+#define IDC_BUTTON_6	1006
+#define IDC_BUTTON_7	1007
+#define IDC_BUTTON_8	1008
+#define IDC_BUTTON_9	1009
+#define IDC_BUTTON_0	1010
+#define IDC_BUTTON_ADD	1011
+#define IDC_BUTTON_SUB	1012
+#define IDC_BUTTON_MUL	1013
+#define IDC_BUTTON_DIV	1014
+#define IDC_BUTTON_RES	1015
+#define IDC_BUTTON_C	1016
+#define IDC_EDIT		1017
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParem, LPARAM lParam);
-void MoveSizeEvent(HWND hwnd);
+CHAR* Enter(HWND hwnd, const CHAR* symbol);
+INT ConvertEditTextToInt(HWND hwnd);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
-
-	// Главное окно создаётся в 3 этапа:
-	// 1) Регистрация окна;
 	WNDCLASSEX wc;
 	ZeroMemory(&wc, sizeof(wc));
 
-	wc.cbSize = sizeof(wc); //cb - Count Bytes (Количество байтов)
-	wc.cbWndExtra = 0; // Дополнительный байты окна
-	wc.cbClsExtra = 0; // Дополнительный байты класса окна
+	wc.cbSize = sizeof(wc);
+	wc.cbWndExtra = 0;
+	wc.cbClsExtra = 0;
 	wc.style = 0;
-	
-	//wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_RECYCLE)); // Иконка в панели задач
-	//wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_WALLPAPER)); //Sm -Small. Иконка в заголовке окна
-	wc.hIcon = ExtractIcon(hInstance, "napster.ico", 0);
-	wc.hIconSm = ExtractIcon(hInstance, "mailchimp.ico", 0);
-
-
-	//wc.hCursor = LoadCursor(NULL, IDC_ARROW);	
-	wc.hCursor = (HCURSOR)LoadImage(hInstance, "Link_Select.ani", IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+	wc.hIcon = ExtractIcon(hInstance, "calculation.ico", 0);
+	wc.hIconSm = ExtractIcon(hInstance, "calculation.ico", 0);
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = HBRUSH(COLOR_WINDOW + 1);
-	wc.hInstance = hInstance; //hInstance - это экземпляр исполняемого файла программы в памяти
-	// В функции WinMain()  принимает hInstance как параметр, и поэтому к нему есть прямой доступ, 
-	// в любой другой функции hInstance всегда можно получить с помощью функции GetModuleHandle(NULL)
-	wc.lpfnWndProc = WndProc; //Указатель на процедуру окна
-	wc.lpszMenuName = NULL; //Указание на меню окна(NULL - нет меню поумолчанию)
-	wc.lpszClassName = g_sz_WINDOW_CLASS;
+	wc.hInstance = hInstance;
+	wc.lpfnWndProc = WndProc;
+	wc.lpszMenuName = NULL;
+	wc.lpszClassName = "Сalculator";
+
 	if (!RegisterClassEx(&wc))
 	{
 		MessageBox(NULL, ("Call Register failed!"), ("Error"), MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
-	// 2) Создание окна;
 	HWND hwnd = CreateWindowEx
 	(
-		WS_EX_OVERLAPPEDWINDOW, //Параметр расширенного стяли окна(не обязателен)
-		g_sz_WINDOW_CLASS, //Имя приложения
-		g_sz_WINDOW_CLASS, //Текст отображаемый в строке заголовка окна
-		WS_OVERLAPPEDWINDOW, //Тип создаваемого окна, у главного окна всегда будет такой стиль
-		
-		CW_USEDEFAULT, //Начальная позиция окна по Х
-		CW_USEDEFAULT, //Начальная позиция по Y
-		GetSystemMetrics(SM_CXSCREEN)*3/4,
-		GetSystemMetrics(SM_CYSCREEN)*3/4,
-		//CW_USEDEFAULT, //Ширина окна
-		//CW_USEDEFAULT, //Длина окна
-		
-		NULL, //Родитель окна данного окна
-		NULL, //hMenu - Строка меню окна( NULL - не имеет). Для дочернего окна, который являкется элементом другого окна, в hMenu передаётся ID ресурса этого элемента.
+		WS_EX_OVERLAPPEDWINDOW,
+		"Сalculator",
+		"Сalculator",
+		WS_OVERLAPPEDWINDOW,
+		10,
+		10,
+		300,
+		400,		
+		NULL,
+		NULL,
 		hInstance,
 		NULL
 	);
@@ -81,7 +75,6 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	ShowWindow(hwnd, nCmdShow);
 	UpdateWindow(hwnd);
 
-	// 3) Запуск цикла сообщений;
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0) > 0)
 	{
@@ -93,41 +86,110 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static HCURSOR hCursor;
+	static HWND hButton[17], hEdit;
+	static CHAR sign;
+
 	switch(uMsg)
 	{
 		case WM_CREATE:		
-		{
-			HWND hCombo = CreateWindowEx(NULL, "ComboBox", "",	WS_CHILD | WS_VISIBLE | CBS_DROPDOWN | WS_VSCROLL, 10, 10, 200, 200, hwnd, (HMENU)IDC_COMBO, GetModuleHandle(NULL), NULL);
-			std::vector<std::string> cursor = LoadCursorFromDir("starcraft-original\\*");
-			for (int i = 0; i < cursor.size(); i++)
-				SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)cursor[i].c_str());
-			HWND hButton = CreateWindowEx(NULL, "Button", "Apply", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 220, 10, 100, 24, hwnd, (HMENU)IDC_BUTTON_APPLY, GetModuleHandle(NULL), NULL);
+		{			
+			hEdit = CreateWindowEx(NULL, "Edit", "", WS_CHILD | WS_VISIBLE | WS_BORDER, 10, 10, 215, 25, hwnd, (HMENU)IDC_EDIT, GetModuleHandle(NULL), NULL);
+			hButton[1] = CreateWindowEx(NULL, "Button", "1", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 10, 50, 50, 50, hwnd, (HMENU)IDC_BUTTON_1, GetModuleHandle(NULL), NULL);
+			hButton[2] = CreateWindowEx(NULL, "Button", "2", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 65, 50, 50, 50, hwnd, (HMENU)IDC_BUTTON_2, GetModuleHandle(NULL), NULL);
+			hButton[3] = CreateWindowEx(NULL, "Button", "3", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 120, 50, 50, 50, hwnd, (HMENU)IDC_BUTTON_3, GetModuleHandle(NULL), NULL);
+			hButton[4] = CreateWindowEx(NULL, "Button", "4", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 10, 105, 50, 50, hwnd, (HMENU)IDC_BUTTON_4, GetModuleHandle(NULL), NULL);
+			hButton[5] = CreateWindowEx(NULL, "Button", "5", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 65, 105, 50, 50, hwnd, (HMENU)IDC_BUTTON_5, GetModuleHandle(NULL), NULL);
+			hButton[6] = CreateWindowEx(NULL, "Button", "6", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 120, 105, 50, 50, hwnd, (HMENU)IDC_BUTTON_6, GetModuleHandle(NULL), NULL);
+			hButton[7] = CreateWindowEx(NULL, "Button", "7", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 10, 160, 50, 50, hwnd, (HMENU)IDC_BUTTON_7, GetModuleHandle(NULL), NULL);
+			hButton[8] = CreateWindowEx(NULL, "Button", "8", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 65, 160, 50, 50, hwnd, (HMENU)IDC_BUTTON_8, GetModuleHandle(NULL), NULL);
+			hButton[9] = CreateWindowEx(NULL, "Button", "9", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 120, 160, 50, 50, hwnd, (HMENU)IDC_BUTTON_9, GetModuleHandle(NULL), NULL);
+			hButton[0] = CreateWindowEx(NULL, "Button", "0", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 65, 215, 50, 50, hwnd, (HMENU)IDC_BUTTON_0, GetModuleHandle(NULL), NULL);
+			hButton[10] = CreateWindowEx(NULL, "Button", "+", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 175, 50, 50, 50, hwnd, (HMENU)IDC_BUTTON_ADD, GetModuleHandle(NULL), NULL);
+			hButton[11] = CreateWindowEx(NULL, "Button", "-", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 175, 105, 50, 50, hwnd, (HMENU)IDC_BUTTON_SUB, GetModuleHandle(NULL), NULL);
+			hButton[12] = CreateWindowEx(NULL, "Button", "*", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 175, 160, 50, 50, hwnd, (HMENU)IDC_BUTTON_MUL, GetModuleHandle(NULL), NULL);
+			hButton[13] = CreateWindowEx(NULL, "Button", "/", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 175, 215, 50, 50, hwnd, (HMENU)IDC_BUTTON_DIV, GetModuleHandle(NULL), NULL);
+			hButton[14] = CreateWindowEx(NULL, "Button", "=", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 10, 215, 50, 50, hwnd, (HMENU)IDC_BUTTON_RES, GetModuleHandle(NULL), NULL);
+			hButton[15] = CreateWindowEx(NULL, "Button", "C", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 120, 215, 50, 50, hwnd, (HMENU)IDC_BUTTON_C, GetModuleHandle(NULL), NULL);
 		}
 		break;
-		case WM_SIZE:		MoveSizeEvent(hwnd); break;
-		case WM_MOVE:		MoveSizeEvent(hwnd); break;
 		case WM_COMMAND:	
 		{
 			switch (LOWORD(wParam))
 			{
-			case IDC_BUTTON_APPLY:
-			{
-				HWND hCombo = GetDlgItem(hwnd, IDC_COMBO);
-				int i = SendMessage(hCombo, CB_GETCURSEL, 0, 0);
-				CHAR sz_filename[_MAX_FNAME]{};
-				CHAR sz_filepath[_MAX_PATH] = "starcraft-original\\";
-				SendMessage(hCombo, CB_GETLBTEXT, i, (LPARAM)sz_filename);
-				strcat(sz_filepath, sz_filename);
-				hCursor = (HCURSOR)LoadImage(GetModuleHandle(NULL), sz_filepath, IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
-				SetCursorPos(500, 300);
-				SetClassLong(hwnd, GCLP_HCURSOR, (LONG)hCursor);
-				SetClassLong(GetDlgItem(hwnd, IDC_BUTTON_APPLY), GCLP_HCURSOR, (LONG)hCursor);
-				SetClassLong(GetDlgItem(hwnd, IDC_COMBO), GCLP_HCURSOR, (LONG)hCursor);
-				//SetCursor(hCursor);
-				return FALSE;
-			}
-			break;
+				case IDC_BUTTON_1: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "1")); break;
+				case IDC_BUTTON_2: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "2")); break;
+				case IDC_BUTTON_3: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "3")); break;
+				case IDC_BUTTON_4: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "4")); break;
+				case IDC_BUTTON_5: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "5")); break;
+				case IDC_BUTTON_6: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "6")); break;
+				case IDC_BUTTON_7: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "7")); break;
+				case IDC_BUTTON_8: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "8")); break;
+				case IDC_BUTTON_9: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "9")); break;
+				case IDC_BUTTON_0: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "0")); break;
+				case IDC_BUTTON_ADD: 
+				{
+					SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "+"));
+					sign = '+';
+				}
+				break;
+				case IDC_BUTTON_SUB: 
+				{
+					SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "-"));
+					sign = '-';
+				}
+				break;
+				case IDC_BUTTON_MUL: 
+				{
+					SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "*")); 
+					sign = '*';
+				}
+				break;
+				case IDC_BUTTON_DIV: 
+				{
+					SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)Enter(hwnd, "/"));
+					sign = '/';
+				}
+				break;
+				case IDC_BUTTON_C: SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)""); break;
+				case IDC_BUTTON_RES: 
+				{
+					CONST INT SIZE = 256;
+					CHAR sz_buffer[SIZE] = {};
+					DOUBLE value[2];
+					HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
+					SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+					CHAR delim[5] = {'+', '-', '*', '/'};
+					value[0] = std::atof(strtok(sz_buffer, delim));
+					value[1] = std::atof(strtok(NULL, delim));
+					switch (sign)
+					{
+						case '+':
+						{							
+							CHAR* result = _itoa((value[0]+value[1]), sz_buffer, 10);
+							SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)result);
+						} 
+						break;
+						case '-':
+						{
+							CHAR* result = _itoa((value[0]-value[1]), sz_buffer, 10);
+							SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)result);
+						} 
+						break;
+						case '*':
+						{
+							CHAR* result = _itoa((value[0]*value[1]), sz_buffer, 10);
+							SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)result);
+						} 
+						break;
+						{
+						case '/':
+							CHAR* result = _itoa((value[0]/value[1]), sz_buffer, 10);
+							SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)result);
+						}
+						break;
+					}
+				}
+				break;
 			}
 		}
 		break;
@@ -138,24 +200,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return NULL;
 }
 
-void MoveSizeEvent(HWND hwnd)
+CHAR* Enter(HWND hwnd, const CHAR* symbol)
 {
-	RECT rect;
-	GetWindowRect(hwnd, &rect);
-	UINT width = rect.right - rect.left;
-	UINT height = rect.bottom - rect.top;
 	CONST INT SIZE = 256;
 	CHAR sz_buffer[SIZE] = {};
-	sprintf(sz_buffer, "%s: Положение окна (%i x %i) Размер окна (%i x %i)", g_sz_WINDOW_CLASS, rect.left, rect.top, width, height);
-	SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_buffer);
-}
-
-std::vector<std::string> LoadCursorFromDir(const std::string& directory)
-{
-	std::vector<std::string> files;
-	WIN32_FIND_DATA data;
-	for (HANDLE hFind = FindFirstFile(directory.c_str(), &data); FindNextFile(hFind, &data);) //const char* c_str() - возвращает С-строку, хранящийся в обекте string
-		if(strcmp(strrchr(data.cFileName, '.'), ".cur") == 0 || strcmp(strrchr(data.cFileName, '.'), ".ani") == 0)
-			files.push_back(data.cFileName);
-	return files;
+	SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+	if ((strcmp(sz_buffer, "") == 0) && (strcmp(symbol, "0") == 0)) return sz_buffer;
+	return strcat(sz_buffer, symbol);
 }

@@ -9,7 +9,6 @@ CONST CHAR g_sz_CLASSNAME[] = "Calc";
 CONST INT START_X = 10;
 CONST INT START_Y = 10;
 
-
 CONST INT BUTTON_SIZE = 50;
 CONST INT INTERVAL = 5;
 CONST INT BUTTON_DOUBLE_SIZE = BUTTON_SIZE * 2 + INTERVAL;
@@ -83,6 +82,9 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	static DOUBLE value[2];
+	static CHAR operation;
+
 	switch (uMsg)
 	{
 	case WM_CREATE:		
@@ -92,7 +94,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		(
 			NULL, "Edit", "0", 
 			WS_CHILDWINDOW | WS_VISIBLE | ES_RIGHT| ES_READONLY | WS_BORDER, 
-			START_X, START_X, SCREEN_WIDTH, SCREEN_HEIGHT,
+			START_X, START_X, SCREEN_WIDTH-BUTTON_SIZE-INTERVAL, SCREEN_HEIGHT,
 			hwnd, (HMENU)IDC_EDIT, GetModuleHandle(NULL), NULL
 		);
 		//Создание цифровой панели
@@ -177,14 +179,23 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			(HMENU)(IDC_BUTTON_EQUAL),
 			GetModuleHandle(NULL), NULL
 		);
+		CreateWindowEx
+		(
+			NULL, "Button", "<=",
+			WS_CHILDWINDOW | WS_VISIBLE | BS_PUSHBUTTON,
+			START_X + BUTTON_SIZE * 4 + INTERVAL * 4, START_Y, BUTTON_SIZE, BUTTON_SIZE * 2/5,
+			hwnd,
+			(HMENU)(IDC_BUTTON_BSP),
+			GetModuleHandle(NULL), NULL
+		);
 	}
 	break;
 	case WM_COMMAND:	
 	{
 		if (LOWORD(wParam) >= IDC_BUTTON_0 && LOWORD(wParam) <= IDC_BUTTON_9 || LOWORD(wParam) == IDC_BUTTON_POINT)
 		{
-			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
 			CHAR sz_buffer[MAX_PATH]{};
+			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
 			SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
 			if (strcmp(sz_buffer, "0") == 0)
 			{
@@ -200,6 +211,102 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			else sz_digit[0] = LOWORD(wParam) - IDC_BUTTON_0 + 48;
 			strcat(sz_buffer, sz_digit);
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+		}
+
+		if (LOWORD(wParam) == IDC_BUTTON_CLEAR)
+		{
+			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
+			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"0");
+		}
+
+		if (LOWORD(wParam) == IDC_BUTTON_BSP)
+		{
+			CHAR sz_buffer[MAX_PATH]{};
+			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
+			SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
+			if (strcmp(sz_buffer, "0") == 0 || strlen(sz_buffer) == 0) break;
+			sz_buffer[strlen(sz_buffer) - 1] = 0;
+			if (strlen(sz_buffer)==0) SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"0");
+			else SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+		}
+
+		if (LOWORD(wParam) >= IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_EQUAL)
+		{
+			CHAR sz_buffer[MAX_PATH]{};
+			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
+			SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
+
+			switch (LOWORD(wParam))
+			{
+				case IDC_BUTTON_PLUS:	
+				{	
+					strcat(sz_buffer, "+");
+					SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+					operation = '+';
+				}
+				break;
+
+				case IDC_BUTTON_MINUS: 
+				{
+					strcat(sz_buffer, "-");
+					SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+					operation = '-';
+				}
+				break;
+
+				case IDC_BUTTON_ASTER:
+				{
+					strcat(sz_buffer, "*");
+					SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+					operation = '*';
+				}
+				break;
+
+				case IDC_BUTTON_SLASH:
+				{
+					strcat(sz_buffer, "/");
+					SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+					operation = '/';
+				}
+				break;
+
+				case IDC_BUTTON_EQUAL:
+				{
+					DOUBLE value[2];
+					SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
+					CHAR delim[5] = {'+', '-', '*', '/'};
+					value[0] = std::atof(strtok(sz_buffer, delim));
+					value[1] = std::atof(strtok(NULL, delim));
+					switch (operation)
+					{
+					case '+':
+					{
+						sprintf(sz_buffer, "%f", (value[0] + value[1]));
+						SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)sz_buffer);
+					}
+					break;
+					case '-':
+					{
+						sprintf(sz_buffer, "%f", (value[0] - value[1]));
+						SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)sz_buffer);
+					}
+					break;
+					case '*':
+					{
+						sprintf(sz_buffer, "%f", (value[0] * value[1]));
+						SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)sz_buffer);
+					}
+					break;
+					{
+					case '/':
+						sprintf(sz_buffer, "%f", (value[0] / value[1]));
+						SendMessage(GetDlgItem(hwnd, IDC_EDIT), WM_SETTEXT, 0, (LPARAM)sz_buffer);
+					}
+					break;
+					}
+				}
+				break;
+			}
 		}
 	}
 	break;

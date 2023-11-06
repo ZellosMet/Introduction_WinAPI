@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #include<Windows.h>
 #include"resource.h"
 #include<stdio.h>
@@ -86,16 +86,16 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static DOUBLE a = 0, b = 0; //переменные
+	static DOUBLE a = 0, b = 0; //РїРµСЂРµРјРµРЅРЅС‹Рµ
 	static INT operation = 0;
-	static BOOL input = false; //Отслеживает ввод чисел
-	static BOOL input_operation = false; //отслеживает ввож операций
+	static BOOL input = false; //РћС‚СЃР»РµР¶РёРІР°РµС‚ РІРІРѕРґ С‡РёСЃРµР»
+	static BOOL input_operation = false; //РѕС‚СЃР»РµР¶РёРІР°РµС‚ РІРІРѕР¶ РѕРїРµСЂР°С†РёР№
 
 	switch (uMsg)
 	{
 	case WM_CREATE:
 	{
-		//Строка ввода
+		//РЎС‚СЂРѕРєР° РІРІРѕРґР°
 		HWND hEdit = CreateWindowEx
 		(
 			NULL, "Edit", "0",
@@ -107,7 +107,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		//Создание цифровой панели
+		//РЎРѕР·РґР°РЅРёРµ С†РёС„СЂРѕРІРѕР№ РїР°РЅРµР»Рё
 		CHAR sz_bitmap_path[MAX_PATH]{};
 		HBITMAP hBitmap_image[9];
 		for (int i = 0; i < sizeof(hBitmap_image) / sizeof(hBitmap_image[0]); i++)
@@ -139,7 +139,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				k++;
 			}
 
-		//Создание нуля
+		//РЎРѕР·РґР°РЅРёРµ РЅСѓР»СЏ
 		HBITMAP hBitmap_0 = (HBITMAP)LoadImage(NULL, "Button_images\\0.bmp", IMAGE_BITMAP, BUTTON_DOUBLE_SIZE, BUTTON_SIZE, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
 		HWND hButton_0 = CreateWindowEx
 		(
@@ -153,7 +153,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		);
 		SendMessage(hButton_0, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap_0);
 
-		//Создание точки
+		//РЎРѕР·РґР°РЅРёРµ С‚РѕС‡РєРё
 		HBITMAP hBitmap_Point = (HBITMAP)LoadImage(NULL, "Button_images\\Point.bmp", IMAGE_BITMAP, BUTTON_SIZE, BUTTON_SIZE, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
 		HWND hButton_Point = CreateWindowEx
 		(
@@ -168,7 +168,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		);
 		SendMessage(hButton_Point, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap_Point);
 
-		//Создане операций
+		//РЎРѕР·РґР°РЅРµ РѕРїРµСЂР°С†РёР№
 		HBITMAP hBitmap_operations[4];
 		HWND hButton_operations[4];
 		for (int i = 0; i < sizeof(hBitmap_operations) / sizeof(hBitmap_operations[0]); i++)
@@ -192,7 +192,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendMessage(hButton_operations[i], BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap_operations[i]);
 		}
 
-		//Кнопка очистки
+		//РљРЅРѕРїРєР° РѕС‡РёСЃС‚РєРё
 		HBITMAP hBitmap_clear = (HBITMAP)LoadImage(NULL, "Button_images\\Clear.bmp", IMAGE_BITMAP, BUTTON_SIZE, BUTTON_SIZE, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
 		HWND hButton_clear = CreateWindowEx
 		(
@@ -207,7 +207,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		);
 		SendMessage(hButton_clear, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap_clear);
 
-		//Кнопка равно
+		//РљРЅРѕРїРєР° СЂР°РІРЅРѕ
 		HBITMAP hBitmap_equal = (HBITMAP)LoadImage(NULL, "Button_images\\Equals.bmp", IMAGE_BITMAP, BUTTON_SIZE, BUTTON_DOUBLE_SIZE,  LR_CREATEDIBSECTION | LR_LOADFROMFILE);
 		HWND hButton_equal = CreateWindowEx
 		(
@@ -222,7 +222,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		);
 		SendMessage(hButton_equal, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap_equal);
 
-		//Кнопка Backspace
+		//РљРЅРѕРїРєР° Backspace
 		HBITMAP hBitmap_BSP = (HBITMAP)LoadImage(NULL, "Button_images\\BSP.bmp", IMAGE_BITMAP, BUTTON_SIZE, BUTTON_SIZE, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
 		HWND hButton_BSP = CreateWindowEx
 		(
@@ -242,7 +242,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 	{
 		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
-		// Цифры с точкой
+		// Р¦РёС„СЂС‹ СЃ С‚РѕС‡РєРѕР№
 		if (LOWORD(wParam) >= IDC_BUTTON_0 && LOWORD(wParam) <= IDC_BUTTON_9 || LOWORD(wParam) == IDC_BUTTON_POINT)
 		{
 			if (!input) SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"");
@@ -264,7 +264,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			strcat(sz_buffer, sz_digit);
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 		}
-		// Операторы
+		// РћРїРµСЂР°С‚РѕСЂС‹
 		if (LOWORD(wParam) == IDC_BUTTON_CLEAR)
 		{
 			a = b = 0;

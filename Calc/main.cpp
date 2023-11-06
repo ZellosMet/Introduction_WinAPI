@@ -14,7 +14,11 @@ CONST INT INTERVAL = 5;
 CONST INT BUTTON_DOUBLE_SIZE = BUTTON_SIZE * 2 + INTERVAL;
 
 CONST INT SCREEN_WIDTH = BUTTON_SIZE * 5 + INTERVAL * 4;
-CONST INT SCREEN_HEIGHT = 20;
+CONST INT SCREEN_HEIGHT = 50;
+
+CONST CHAR DISPLAY_FONT[] = "Tahoma";
+CONST INT DISPLAY_FONT_HEIHGT = SCREEN_HEIGHT - 2;
+CONST INT DISPLAY_FONT_WIDTH = DISPLAY_FONT_HEIHGT / 2.5;
 
 CONST INT BUTTON_START_X = START_X;
 CONST INT BUTTON_START_Y = START_Y + SCREEN_HEIGHT + INTERVAL * 2;
@@ -37,7 +41,8 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	wc.hIcon = ExtractIcon(hInstance, "calculation.ico", 0);
 	wc.hIconSm = ExtractIcon(hInstance, "calculation.ico", 0);
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = HBRUSH(COLOR_WINDOW + 1);
+	wc.hbrBackground = CreateSolidBrush(RGB(0, 255, 0));
+	//wc.hbrBackground = HBRUSH(COLOR_WINDOW + 1);
 	wc.hInstance = hInstance;
 	wc.lpfnWndProc = WndProc;
 	wc.lpszMenuName = NULL;
@@ -99,7 +104,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		HWND hEdit = CreateWindowEx
 		(
 			NULL, "Edit", "0",
-			WS_CHILDWINDOW | WS_VISIBLE | WS_BORDER | ES_RIGHT | ES_READONLY,
+			WS_CHILDWINDOW | WS_VISIBLE /*| WS_BORDER*/ | ES_RIGHT | ES_READONLY,
 			START_X, START_Y,
 			SCREEN_WIDTH, SCREEN_HEIGHT,
 			hwnd,
@@ -107,6 +112,20 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
+
+		// Создаём шрифт для Edit
+		HFONT hFont = CreateFont
+		(
+			DISPLAY_FONT_HEIHGT, DISPLAY_FONT_WIDTH,
+			GM_ADVANCED, 0 , 600,
+			FALSE, FALSE, FALSE,
+			DEFAULT_CHARSET, OUT_CHARACTER_PRECIS,
+			CLIP_CHARACTER_PRECIS, ANTIALIASED_QUALITY,
+			DEFAULT_PITCH | FF_DONTCARE, DISPLAY_FONT
+		);
+		SendMessage(hEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
+
+		///////////////////////////////////////////////////////////////////////
 		//Создание цифровой панели
 		CHAR sz_bitmap_path[MAX_PATH]{};
 		HBITMAP hBitmap_image[9];
@@ -236,6 +255,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			NULL
 		);
 		SendMessage(hButton_BSP, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap_BSP);
+	}
+	break;
+
+	case WM_CTLCOLORSTATIC:
+	{
+		HDC hdc = (HDC)wParam;
+		SetBkMode(hdc, OPAQUE);
+		SetBkColor(hdc, RGB(0, 0, 100));
+		HBRUSH hBrush  = CreateSolidBrush(RGB(250, 0, 0));
+		SetTextColor(hdc, RGB(255, 0, 0));
+		return (LRESULT)hBrush;
 	}
 	break;
 

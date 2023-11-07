@@ -25,6 +25,12 @@
 #define IDC_BUTTON_CLEAR	1016
 #define IDC_BUTTON_BSP		1017
 
+
+#define IDC_COOL			1018
+#define IDC_SQUARE			1019
+#define IDC_ROUND			1020
+#define IDC_CLOSE			1021
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

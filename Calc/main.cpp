@@ -354,12 +354,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//Событие контекстного меню
 	case WM_CONTEXTMENU:
 	{
-		HMENU hMenu = CreatePopupMenu();
-		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_STRING, IDC_CLOSE, "Close");
-		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_STRING, IDC_SQUARE, "Style Square Buttons");
-		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_STRING, IDC_ROUND, "Style Round Buttons");
-		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_STRING, IDC_COOL, "Style Cool Buttons");
-		switch (TrackPopupMenuEx(hMenu, TPM_BOTTOMALIGN | TPM_LEFTALIGN | TPM_RETURNCMD, LOWORD(lParam), HIWORD(lParam), hwnd, NULL))
+		HMENU hContextMenu = CreatePopupMenu();
+		InsertMenu(hContextMenu, 0, MF_BYPOSITION | MF_STRING, IDC_CLOSE, "Close");
+		InsertMenu(hContextMenu, 0, MF_BYPOSITION | MF_STRING, IDC_SQUARE, "Style Square Buttons");
+		InsertMenu(hContextMenu, 0, MF_BYPOSITION | MF_STRING, IDC_ROUND, "Style Round Buttons");
+		InsertMenu(hContextMenu, 0, MF_BYPOSITION | MF_STRING, IDC_COOL, "Style Cool Buttons");
+		switch (TrackPopupMenuEx(hContextMenu, TPM_BOTTOMALIGN | TPM_LEFTALIGN | TPM_RETURNCMD, LOWORD(lParam), HIWORD(lParam), hwnd, NULL))
 		{
 			case IDC_COOL:		strcpy(sz_style_button, "cool_button"); break;
 			case IDC_ROUND:		strcpy(sz_style_button, "round_green");	break;

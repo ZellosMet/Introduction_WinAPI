@@ -1,31 +1,31 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #include<Windows.h>
 #include<stdio.h>
 #include"resource.h"
 
-// Название окна
+// РќР°Р·РІР°РЅРёРµ РѕРєРЅР°
 CONST CHAR g_sz_CLASSNAME[] = "Calculator";
-//Начальная позиция Edit
+//РќР°С‡Р°Р»СЊРЅР°СЏ РїРѕР·РёС†РёСЏ Edit
 CONST INT START_X = 10;
 CONST INT START_Y = 10;
-//Размеры кнопок
+//Р Р°Р·РјРµСЂС‹ РєРЅРѕРїРѕРє
 CONST INT BUTTON_SIZE = 80;
 CONST INT INTERVAL = 5;
 CONST INT BUTTON_DOUBLE_SIZE = BUTTON_SIZE * 2 + INTERVAL;
-//Размеры окна
+//Р Р°Р·РјРµСЂС‹ РѕРєРЅР°
 CONST INT SCREEN_WIDTH = (BUTTON_SIZE) * 5 + INTERVAL * 4;
-//Размер Edit
+//Р Р°Р·РјРµСЂ Edit
 CONST INT SCREEN_HEIGHT = 50;
-//Настройки стиля окна
+//РќР°СЃС‚СЂРѕР№РєРё СЃС‚РёР»СЏ РѕРєРЅР°
 CONST CHAR DISPLAY_FONT[] = "Tahoma";
 CONST INT DISPLAY_FONT_HEIHGT = SCREEN_HEIGHT - 2;
 CONST INT DISPLAY_FONT_WIDTH = DISPLAY_FONT_HEIHGT / 2.5;
-//Начальное положение кнопок
+//РќР°С‡Р°Р»СЊРЅРѕРµ РїРѕР»РѕР¶РµРЅРёРµ РєРЅРѕРїРѕРє
 CONST INT BUTTON_START_X = START_X;
 CONST INT BUTTON_START_Y = START_Y + SCREEN_HEIGHT + INTERVAL * 2;
-//Массив операций
+//РњР°СЃСЃРёРІ РѕРїРµСЂР°С†РёР№
 CONST CHAR* OPERATIONS[] = { "/", "*", "-", "+" };
-//Массив названия файлов
+//РњР°СЃСЃРёРІ РЅР°Р·РІР°РЅРёСЏ С„Р°Р№Р»РѕРІ
 CONST CHAR* BUTTON_NAMES[] = { "point", "plus", "minus", "aster", "slash", "equal", "clear", "back" };
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -33,7 +33,7 @@ VOID SetSkin(HWND hwnd, CONST CHAR sz_skin[]);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmsLine, INT nCmdShow)
 {
-	//Класс окна
+	//РљР»Р°СЃСЃ РѕРєРЅР°
 	WNDCLASSEX wc;
 	ZeroMemory(&wc, sizeof(wc));
 
@@ -58,7 +58,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmsLine, IN
 		MessageBox(NULL, "Class registration failed", "Error", MB_OK);
 		return 0;
 	}
-	//Создание окна
+	//РЎРѕР·РґР°РЅРёРµ РѕРєРЅР°
 	HWND hwnd = CreateWindowEx
 	(
 		NULL,
@@ -80,7 +80,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmsLine, IN
 	}
 	ShowWindow(hwnd, nCmdShow);
 	UpdateWindow(hwnd);
-	//Цикл сообщений
+	//Р¦РёРєР» СЃРѕРѕР±С‰РµРЅРёР№
 	MSG msg;
 	while (GetMessage(&msg, 0, 0, 0) > 0)
 	{
@@ -92,17 +92,17 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmsLine, IN
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static DOUBLE a = 0, b = 0; //Переменные для расчёта
-	static INT operation = 0; // ID-операций
-	static BOOL input = false; //Ввод чисел
-	static BOOL input_operation = false; //Ввод операций
-	static CHAR sz_style_button[FILENAME_MAX] = {}; //Путь к файлам стилей
+	static DOUBLE a = 0, b = 0; //РџРµСЂРµРјРµРЅРЅС‹Рµ РґР»СЏ СЂР°СЃС‡С‘С‚Р°
+	static INT operation = 0; // ID-РѕРїРµСЂР°С†РёР№
+	static BOOL input = false; //Р’РІРѕРґ С‡РёСЃРµР»
+	static BOOL input_operation = false; //Р’РІРѕРґ РѕРїРµСЂР°С†РёР№
+	static CHAR sz_style_button[FILENAME_MAX] = {}; //РџСѓС‚СЊ Рє С„Р°Р№Р»Р°Рј СЃС‚РёР»РµР№
 
 	switch (uMsg)
 	{
 	case WM_CREATE:
 	{
-		//Создание Edit
+		//РЎРѕР·РґР°РЅРёРµ Edit
 		HWND hEdit = CreateWindowEx
 		(
 			NULL, "Edit", "Screen",
@@ -114,7 +114,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		//Создание стиля окна
+		//РЎРѕР·РґР°РЅРёРµ СЃС‚РёР»СЏ РѕРєРЅР°
 		HFONT hFont = CreateFont
 		(
 			DISPLAY_FONT_HEIHGT, DISPLAY_FONT_WIDTH,
@@ -130,7 +130,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SendMessage(hEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
 
 		/////////////////////////////////////////////////////////////////////////////////
-		//Создание цифровых кнопок 1-9
+		//РЎРѕР·РґР°РЅРёРµ С†РёС„СЂРѕРІС‹С… РєРЅРѕРїРѕРє 1-9
 		int digit = 0;
 		char sz_digit[2] = "";
 		for (int i = 6; i >= 0; i -= 3)
@@ -153,7 +153,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				);
 			}
 		}
-		//Создание 0
+		//РЎРѕР·РґР°РЅРёРµ 0
 		CreateWindowEx
 		(
 			NULL, "Button", "0",
@@ -165,7 +165,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		//Создание точки
+		//РЎРѕР·РґР°РЅРёРµ С‚РѕС‡РєРё
 		CreateWindowEx
 		(
 			NULL, "Button", ".",
@@ -177,7 +177,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		//Создание операций
+		//РЎРѕР·РґР°РЅРёРµ РѕРїРµСЂР°С†РёР№
 		for (int i = 0; i < sizeof(OPERATIONS) / sizeof(OPERATIONS[0]); i++)
 		{
 			CreateWindowEx
@@ -192,7 +192,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				NULL
 			);
 		}
-		//создание Backspace
+		//СЃРѕР·РґР°РЅРёРµ Backspace
 		CreateWindowEx
 		(
 			NULL, "Button", "<-",
@@ -204,7 +204,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		//Создание очистки
+		//РЎРѕР·РґР°РЅРёРµ РѕС‡РёСЃС‚РєРё
 		CreateWindowEx
 		(
 			NULL, "Button", "C",
@@ -216,7 +216,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		//Создание равно
+		//РЎРѕР·РґР°РЅРёРµ СЂР°РІРЅРѕ
 		CreateWindowEx
 		(
 			NULL, "Button", "=",
@@ -228,10 +228,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		SetSkin(hwnd, "square_blue"); //Функция задание стиля кнопок
+		SetSkin(hwnd, "square_blue"); //Р¤СѓРЅРєС†РёСЏ Р·Р°РґР°РЅРёРµ СЃС‚РёР»СЏ РєРЅРѕРїРѕРє
 	}
 	break;
-	//Событие изменения стиля
+	//РЎРѕР±С‹С‚РёРµ РёР·РјРµРЅРµРЅРёСЏ СЃС‚РёР»СЏ
 	case WM_CTLCOLOREDIT:
 	{
 		HDC hdc = (HDC)wParam;
@@ -242,14 +242,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return (LRESULT)hBrush;
 	}
 	break;
-	//Событие команд
+	//РЎРѕР±С‹С‚РёРµ РєРѕРјР°РЅРґ
 	case WM_COMMAND:
 	{
-		//Смена фокуса с Edit на окно
+		//РЎРјРµРЅР° С„РѕРєСѓСЃР° СЃ Edit РЅР° РѕРєРЅРѕ
 		if (LOWORD(wParam) == IDC_EDIT && HIWORD(wParam) == EN_SETFOCUS)SetFocus(hwnd);
 
 		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
-		//Опрос кнопок 0-9 и точки
+		//РћРїСЂРѕСЃ РєРЅРѕРїРѕРє 0-9 Рё С‚РѕС‡РєРё
 		if (LOWORD(wParam) >= IDC_BUTTON_0 && LOWORD(wParam) <= IDC_BUTTON_9 || LOWORD(wParam) == IDC_BUTTON_POINT)
 		{
 			if (!input)SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"");
@@ -271,7 +271,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			strcat(sz_buffer, sz_digit);
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 		}
-		//Опрос кнопок операция
+		//РћРїСЂРѕСЃ РєРЅРѕРїРѕРє РѕРїРµСЂР°С†РёСЏ
 		if (LOWORD(wParam) >= IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_SLASH)
 		{
 			if (input)
@@ -286,7 +286,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			operation = LOWORD(wParam);
 			input_operation = true;
 		}
-		//Опрос равно
+		//РћРїСЂРѕСЃ СЂР°РІРЅРѕ
 		if (LOWORD(wParam) == IDC_BUTTON_EQUAL)
 		{
 			if (input)
@@ -309,7 +309,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			sprintf(sz_buffer, "%g", a);
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 		}
-		//Опрос Backspace
+		//РћРїСЂРѕСЃ Backspace
 		if (LOWORD(wParam) == IDC_BUTTON_BSP)
 		{
 			CHAR sz_buffer[MAX_PATH]{};
@@ -317,7 +317,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (sz_buffer[0])sz_buffer[strlen(sz_buffer) - 1] = 0;
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 		}
-		//Опрос очистки
+		//РћРїСЂРѕСЃ РѕС‡РёСЃС‚РєРё
 		if (LOWORD(wParam) == IDC_BUTTON_CLEAR)
 		{
 			a = b = 0;
@@ -328,7 +328,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 	break;
-	//Событие нажатия клавишь
+	//РЎРѕР±С‹С‚РёРµ РЅР°Р¶Р°С‚РёСЏ РєР»Р°РІРёС€СЊ
 	case WM_KEYDOWN:
 	{
 		if (GetKeyState(VK_SHIFT) < 0)
@@ -351,7 +351,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 	break;
-	//Событие контекстного меню
+	//РЎРѕР±С‹С‚РёРµ РєРѕРЅС‚РµРєСЃС‚РЅРѕРіРѕ РјРµРЅСЋ
 	case WM_CONTEXTMENU:
 	{
 		HMENU hContextMenu = CreatePopupMenu();
@@ -369,19 +369,19 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetSkin(hwnd, sz_style_button);
 	}
 	break;
-	//События закрытия окна
+	//РЎРѕР±С‹С‚РёСЏ Р·Р°РєСЂС‹С‚РёСЏ РѕРєРЅР°
 	case WM_DESTROY:PostQuitMessage(0); break;
 	case WM_CLOSE:	DestroyWindow(hwnd); break;
 	default:		return DefWindowProc(hwnd, uMsg, wParam, lParam); break;
 	}
 	return NULL;
 }
-//Функция смены стиля кнопок
+//Р¤СѓРЅРєС†РёСЏ СЃРјРµРЅС‹ СЃС‚РёР»СЏ РєРЅРѕРїРѕРє
 VOID SetSkin(HWND hwnd, CONST CHAR sz_skin[])
 {
 	CONST INT SIZE = 10;
 	CHAR sz_filename[FILENAME_MAX] = {};
-	//Цифровые кнопки
+	//Р¦РёС„СЂРѕРІС‹Рµ РєРЅРѕРїРєРё
 	for (int i = 0; i < SIZE; i++)
 	{
 		HWND hButton = GetDlgItem(hwnd, IDC_BUTTON_0 + i);
@@ -396,7 +396,7 @@ VOID SetSkin(HWND hwnd, CONST CHAR sz_skin[])
 		);
 		SendMessage(hButton, BM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBitmap);
 	}
-	//Остальное
+	//РћСЃС‚Р°Р»СЊРЅРѕРµ
 	for (int i = 0; i < sizeof(BUTTON_NAMES) / sizeof(BUTTON_NAMES[0]); i++)
 	{
 		HWND hButton = GetDlgItem(hwnd, IDC_BUTTON_POINT + i);

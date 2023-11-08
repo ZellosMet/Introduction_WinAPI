@@ -97,6 +97,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static BOOL input = false; //Ввод чисел
 	static BOOL input_operation = false; //Ввод операций
 	static CHAR sz_style_button[FILENAME_MAX] = {}; //Путь к файлам стилей
+	static COLORREF crBackground  = RGB(0, 0, 255); //Задание цвета фона окна
 
 	switch (uMsg)
 	{
@@ -231,6 +232,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetSkin(hwnd, "square_blue"); //Функция задание стиля кнопок
 	}
 	break;
+	case WM_PAINT:
+	{
+		HBRUSH hbrBackground = CreateSolidBrush(crBackground);
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hwnd, &ps);
+		FillRect(ps.hdc, &ps.rcPaint, hbrBackground);
+		EndPaint(hwnd, &ps);
+	}
+	break;
 	//Событие изменения стиля
 	case WM_CTLCOLOREDIT:
 	{
@@ -359,14 +369,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		InsertMenu(hContextMenu, 0, MF_BYPOSITION | MF_STRING, IDC_SQUARE, "Style Square Buttons");
 		InsertMenu(hContextMenu, 0, MF_BYPOSITION | MF_STRING, IDC_ROUND, "Style Round Buttons");
 		InsertMenu(hContextMenu, 0, MF_BYPOSITION | MF_STRING, IDC_COOL, "Style Cool Buttons");
+		HBRUSH hbrBackground = CreateSolidBrush(RGB(0,0,240));
 		switch (TrackPopupMenuEx(hContextMenu, TPM_BOTTOMALIGN | TPM_LEFTALIGN | TPM_RETURNCMD, LOWORD(lParam), HIWORD(lParam), hwnd, NULL))
 		{
-			case IDC_COOL:		strcpy(sz_style_button, "cool_button"); break;
-			case IDC_ROUND:		strcpy(sz_style_button, "round_green");	break;
-			case IDC_SQUARE:	strcpy(sz_style_button, "square_blue"); break;
+			case IDC_COOL:		strcpy(sz_style_button, "cool_button");	hbrBackground = CreateSolidBrush(RGB(255, 255, 255)); break;
+			case IDC_ROUND:		strcpy(sz_style_button, "round_green");	hbrBackground = CreateSolidBrush(RGB(0, 240, 0)); break;
+			case IDC_SQUARE:	strcpy(sz_style_button, "square_blue");	hbrBackground = CreateSolidBrush(RGB(0, 240, 0)); break;
 			case IDC_CLOSE:		SendMessage(hwnd, WM_CLOSE, 0, 0);
 		}
 		SetSkin(hwnd, sz_style_button);
+		SetClassLongPtr(hwnd, GCLP_HBRBACKGROUND, (LONG_PTR)hbrBackground);
 	}
 	break;
 	//События закрытия окна
